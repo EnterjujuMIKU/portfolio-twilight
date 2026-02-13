@@ -227,9 +227,9 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 
 .jap-reading {
     font-size: 1.1rem;
+    color: #eee;
     color: var(--accent-color);
     font-weight: bold;
-    margin-bottom: 5px;
 }
 
 .jap-meaning {
@@ -241,9 +241,9 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
     
 /* --- TAUX DE CHANGE --- */
 .yen-ticker {
-    margin-top: 10px;
+    margin-top: 20px;
     margin-bottom: 20px;
-    padding: 8px 20px;
+    padding: 3px 16px 8px;
     background: rgba(255, 255, 255, 0.08);
     border-radius: 50px; /* Forme de pilule */
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -268,7 +268,6 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 .info-row {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
     flex-wrap: wrap;
 }
 
