@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Twilight</title>
+    <style>
+        :root {
+            --bg-gradient: url(https://static.zerochan.net/Elysia.full.3894734.jpg) no-repeat center center fixed;
+            --glass-bg: rgba(64, 64, 64, 0.5);
+            --text-color: #ffffff;
+            --accent-color: #8900a5;
+            --loader-bg: #1a0b1f;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg-gradient);
+            background-size: cover;
+            background-attachment: fixed;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);   
+            gap: 10px;
+            overflow: hidden; /* Bloqué pendant le chargement */
+        }
+
+        /* --- LE NOUVEAU LOADER BORDURE --- */
+        #fake-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--loader-bg);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+
+        /* Texte au centre */
+        .loader-text {
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            /*text-transform: uppercase;*/
+            font-weight: bold;
+            animation: pulseText 1.5s infinite alternate;
+            text-shadow: 0 0 15px var(--accent-color);
+        }
+
+        @keyframes pulseText {
+            from { opacity: 0.3; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1.05); }
+        }
+
+        /* --- LIGNES D'ANIMATION (Les rails du Shinkansen) --- */
+        .line {
+            position: absolute;
+            background-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-color); /* Effet néon */
+        }
+
+        /* 1. Lignes du BAS (Partent du centre vers les coins) */
+        .line-bottom-left {
+            bottom: 0;
+            left: 50%;
+            height: 5px;
+            width: 0;
+            transform-origin: left;
+            animation: expandBottomLeft 0.2s linear forwards;
+        }
+        .line-bottom-right {
+            bottom: 0;
+            right: 50%;
+            height: 5px;
+            width: 0;
+            transform-origin: right;
+            animation: expandBottomRight 0.2s linear forwards;
+        }
+
+        /* 2. Lignes des CÔTÉS (Montent vers le haut) - Délai 0.5s */
+        .line-side-left {
+            bottom: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            animation: expandUp 0.2s linear forwards;
+            animation-delay: 0.2s;
+        }
+        .line-side-right {
+            bottom: 0;
+            right: 0;
+            width: 5px;
+            height: 0;
+            animation: expandUp 0.2s linear forwards;
+            animation-delay: 0.2s;
+        }
+
+        /* 3. Lignes du HAUT (Reviennent vers le centre) - Délai 1.3s (0.5 + 0.8) */
+        .line-top-left {
+            top: 0;
+            left: 0;
+            height: 5px;
+            width: 0;
+            animation: expandTop 0.2s linear forwards;
+            animation-delay: 0.4s;
+        }
+        .line-top-right {
+            top: 0;
+            right: 0;
+            height: 5px;
+            width: 0;
+            animation: expandTop 0.2s linear forwards;
+            animation-delay: 0.4s;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes expandBottomLeft {
+            to { width: 50%; left: 0; }
+        }
+        @keyframes expandBottomRight {
+            to { width: 50%; right: 0; }
+        }
+        @keyframes expandUp {
+            to { height: 100%; }
+        }
+        @keyframes expandTop {
+            to { width: 50%; } /* S'arrête au milieu exact */
+        }
+
+        .loader-hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* --- RESTE DU SITE --- */
+        body:has(.container:hover) .backcontainer { filter: blur(3px); }
+        .backcontainer {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: url('https://static.zerochan.net/Elysia.full.3894734.jpg') no-repeat center center;
+            background-size: cover; filter: blur(0px); transform: scale(1.1);
+            z-index: -1; transition: filter 0.75s ease;
+        }
+
+        .container {
+            background: var(--glass-bg);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            box-shadow: 0 12px 48px rgba(90, 90, 90, 0.7);
+            transform: scale(1.05);
+        }
+        
+        .links-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 20px; }
+        .link-card {
+            background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 8px;
+            text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold;
+            transition: all 0.3s ease; border: 1px solid transparent;
+        }
+        .link-card:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--accent-color); transform: translateY(-2px); }
+
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-top: 15px; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
+        .profile-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 20px; object-fit: cover; }
+
+        
+        .content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+            
+            margin-left: auto;
+            margin-right: 30%;
+            align-items: center; 
+
+            /* --- AJOUT DE L'ANIMATION ICI --- */
+            opacity: 0; 
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease-out forwards;
+            animation-delay: 0.5s; /* Délai pour attendre la fin du chargement */
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+    </style>
+</head>
+<body>
+
+    <div id="fake-loader">
+        <div class="loader-text">Twilight</div>
+        
+        <div class="line line-bottom-left"></div>
+        <div class="line line-bottom-right"></div>
+        
+        <div class="line line-side-left"></div>
+        <div class="line line-side-right"></div>
+        
+        <div class="line line-top-left"></div>
+        <div class="line line-top-right"></div>
+    </div>
+
+    <div class="backcontainer"></div>
+    <div class="content">
+        <div class="container">
+            <img src="https://i.pinimg.com/736x/8d/8b/14/8d8b145e4f441036c3a2694761018bcb.jpg" alt="Profile" class="profile-img">
+            <h1>Twilight</h1>
+            <p>Retrouvez tous mes réseaux et projets ci-dessous.</p>
+
+            <div class="links-container">
+                <a href="https://www.youtube.com/@twilight2767" target="_blank" class="link-card">YouTube</a>
+                <a href="https://x.com/EnterjujuMiku" target="_blank" class="link-card">Twitter / X</a>
+                <a href="https://www.twitch.tv/twilightfr" target="_blank" class="link-card">Twitch</a>
+                <a href="https://discord.gg/WBxkqWyUdc" target="_blank" class="link-card">Mon server Discord</a>
+                <a href="https://www.instagram.com/ssstwilight/" target="_blank" class="link-card">Instagram</a>
+                <a href="https://github.com/EnterjujuMIKU" target="_blank" class="link-card">GitHub</a>
+                <a href="https://anilist.co/user/STwilight" target="_blank" class="link-card">Anilist</a>
+                <a href="https://www.nautiljon.com/membre/profil,ph0sphophyliite.html" target="_blank" class="link-card">Nautiljon</a>
+            </div>
+        </div>
+
+        <div class="container">
+            <h2>Dernière Vidéo Youtube</h2>
+            <div class="video-wrapper">
+                <iframe src="https://www.youtube.com/embed?listType=user_uploads&list=twilight2767" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('fake-loader');
+            const body = document.body;
+
+            // Temps total de l'animation des lignes (0.5 + 0.8 + 0.5 = 1.8s)
+            // On attend 2000ms pour être sûr que ça a bien fini
+            setTimeout(() => {
+                loader.classList.add('loader-hidden');
+                body.style.overflow = 'auto'; 
+                loader.addEventListener('transitionend', () => {
+                   loader.remove(); 
+                });
+            }, 600); // 600ms pour laisser le temps aux lignes de commencer leur animation
+        });
+    </script>
+</body>
+</html>
