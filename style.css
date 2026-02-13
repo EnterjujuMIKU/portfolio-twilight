@@ -261,10 +261,10 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
     font-size: 1.1rem;
 }
 
-/*.currency-icon {
-    font-size: 0.9rem;
+.currency-icon {
+    font-size: 0.5rem;
     vertical-align: middle;
-}*/
+}
 /* --- GROUPE YEN + HEURE TOKYO --- */
 .info-row {
     display: flex;
