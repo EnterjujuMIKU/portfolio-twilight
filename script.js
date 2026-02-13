@@ -1,17 +1,24 @@
+// --- MODIFICATION DU 'WINDOW LOAD' ---
 window.addEventListener('load', () => {
     const loader = document.getElementById('fake-loader');
-    const body = document.body;
 
-    // Temps total de l'animation des lignes (0.5 + 0.8 + 0.5 = 1.8s)
-    // On attend 2000ms pour être sûr que ça a bien fini
     setTimeout(() => {
         loader.classList.add('loader-hidden');
-        body.style.overflow = 'auto'; 
+        document.body.style.overflow = 'auto'; 
         loader.addEventListener('transitionend', () => {
-            loader.remove(); 
+           loader.remove(); 
         });
-    }, 600); // 600ms pour laisser le temps aux lignes de commencer leur animation
+        
+        // Lancer les deux scripts (Kanji + Yen)
+        fetchRandomKanji();
+        fetchYenRate(); // <--- On ajoute ça ici !
+
+    }, 600); 
+
+    // Clic sur le widget Kanji
+    document.getElementById('jap-widget').addEventListener('click', fetchRandomKanji);
 });
+
 // --- API JAPONAISE + TRADUCTION FRANÇAISE ---
 
 const kanjiApiBase = "https://kanjiapi.dev/v1/kanji";
@@ -82,6 +89,7 @@ async function fetchRandomKanji() {
 }
 
 // --- TAUX DE CHANGE (EUR -> JPY) ---
+
 async function fetchYenRate() {
     const rateEl = document.getElementById('yen-rate');
     
@@ -105,27 +113,8 @@ async function fetchYenRate() {
     }
 }
 
-// --- MODIFICATION DU 'WINDOW LOAD' ---
-window.addEventListener('load', () => {
-    const loader = document.getElementById('fake-loader');
-
-    setTimeout(() => {
-        loader.classList.add('loader-hidden');
-        document.body.style.overflow = 'auto'; 
-        loader.addEventListener('transitionend', () => {
-           loader.remove(); 
-        });
-        
-        // Lancer les deux scripts (Kanji + Yen)
-        fetchRandomKanji();
-        fetchYenRate(); // <--- On ajoute ça ici !
-
-    }, 2000); 
-
-    // Clic sur le widget Kanji
-    document.getElementById('jap-widget').addEventListener('click', fetchRandomKanji);
-});
 // --- HEURE DE TOKYO ---
+
 function updateTokyoTime() {
     const timeEl = document.getElementById('jp-time');
     const now = new Date();
@@ -140,6 +129,7 @@ setInterval(updateTokyoTime, 1000);
 updateTokyoTime(); // Lancer tout de suite
 
 // --- SHINKANSEN EASTER EGG ---
+
 function runShinkansen() {
     const train = document.getElementById('shinkansen');
     train.classList.remove('shinkansen-run');
