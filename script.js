@@ -125,3 +125,40 @@ window.addEventListener('load', () => {
     // Clic sur le widget Kanji
     document.getElementById('jap-widget').addEventListener('click', fetchRandomKanji);
 });
+// --- HEURE DE TOKYO ---
+function updateTokyoTime() {
+    const timeEl = document.getElementById('jp-time');
+    const now = new Date();
+    timeEl.textContent = now.toLocaleTimeString('fr-FR', { 
+        timeZone: 'Asia/Tokyo', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+    });
+}
+setInterval(updateTokyoTime, 1000);
+updateTokyoTime(); // Lancer tout de suite
+
+// --- SHINKANSEN EASTER EGG ---
+function runShinkansen() {
+    const train = document.getElementById('shinkansen');
+    train.classList.remove('shinkansen-run');
+    
+    // Petite astuce JS pour forcer l'animation à se réinitialiser
+    void train.offsetWidth; 
+    
+    train.classList.add('shinkansen-run');
+}
+
+// Le train passe tout seul de temps en temps (entre 1 et 3 minutes)
+function scheduleTrain() {
+    setTimeout(() => {
+        runShinkansen();
+        scheduleTrain();
+    }, Math.random() * 120000 + 60000);
+}
+
+// --- DANS TON EVENT 'window.addEventListener("load", ...)' EXISTANT ---
+// Ajoute ces deux lignes à l'intérieur de l'événement load (avec le reste) :
+scheduleTrain();
+document.getElementById('hanko-btn').addEventListener('click', runShinkansen);
