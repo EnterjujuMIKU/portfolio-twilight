@@ -319,17 +319,17 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 }*/
 
 /* --- SHINKANSEN EASTER EGG --- */
-#shinkansen {
+/*#shinkansen {
     position: fixed;
     bottom: 20px;
-    left: -100px; /* Caché à gauche */
+    left: -100px;
     font-size: 45px;
     z-index: 9999;
-    transition: transform 2.5s linear; /* Vitesse du train */
+    transition: transform 2.5s linear;
     filter: drop-shadow(0 0 10px var(--accent-color));
-    pointer-events: none; /* Pour ne pas gêner les clics */
+    pointer-events: none;
 }
 
 .shinkansen-run {
-    transform: translateX(calc(100vw + 200px)); /* Traverse tout l'écran */
-}
+    transform: translateX(calc(100vw + 200px));
+}*/
