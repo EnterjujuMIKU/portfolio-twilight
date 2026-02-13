@@ -197,7 +197,7 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 
 /* --- WIDGET JAPONAIS --- */
 .jap-box {
-    margin: 20px 0;
+    margin: 20px 0 0 0;
     padding: 15px;
     background: rgba(0, 0, 0, 0.4); /* Un peu plus foncé pour lire le blanc */
     border-radius: 12px;
@@ -268,10 +268,8 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 /* --- GROUPE YEN + HEURE TOKYO --- */
 .info-row {
     display: flex;
-    gap: 15px;
     justify-content: center;
     margin-top: 10px;
-    margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
