@@ -206,40 +206,45 @@
         .jap-box {
             margin: 20px 0;
             padding: 15px;
-            background: rgba(0, 0, 0, 0.2); /* Un peu plus sombre pour ressortir */
+            background: rgba(0, 0, 0, 0.4); /* Un peu plus foncé pour lire le blanc */
             border-radius: 12px;
             border: 1px solid var(--accent-color);
-            box-shadow: 0 0 10px rgba(137, 0, 165, 0.2);
-            cursor: pointer; /* Montre qu'on peut cliquer pour changer */
-            transition: transform 0.2s;
+            box-shadow: 0 0 15px rgba(137, 0, 165, 0.15);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none; /* Empêche de sélectionner le texte en cliquant vite */
+        }
+        
+        .jap-box:hover {
+            box-shadow: 0 0 25px rgba(137, 0, 165, 0.4);
+            border-color: #fff;
         }
         
         .jap-box:active {
-            transform: scale(0.98); /* Petit effet de clic */
+            transform: scale(0.95);
         }
         
         .jap-word {
-            font-size: 2.5rem;
+            font-size: 1.5rem;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 10px var(--accent-color);
-            margin-bottom: 5px;
+            text-shadow: 0 0 15px var(--accent-color);
+            line-height: 1.2;
             font-family: 'Yu Gothic', 'Meiryo', sans-serif; /* Polices japonaises standard */
         }
         
         .jap-reading {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--accent-color);
             font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
             margin-bottom: 5px;
         }
         
         .jap-meaning {
-            font-size: 0.9rem;
-            color: #ccc;
+            font-size: 0.4rem;
+            color: #ddd;
             font-style: italic;
+            font-weight: 300;
         }
         
     </style>
@@ -265,10 +270,10 @@
             <img src="img/Elysia.png" alt="Profile" class="profile-img">
             <h1>Twilight</h1>
             <p>Retrouvez tous mes réseaux et projets ci-dessous.</p>
-            <div id="jap-widget" class="jap-box">
+            <div id="jap-widget" class="jap-box" title="Clique pour un nouveau mot">
                 <div class="jap-word" id="jp-word">...</div>
-                <div class="jap-reading" id="jp-reading">...</div>
-                <div class="jap-meaning" id="jp-meaning">...</div>
+                <div class="jap-reading" id="jp-reading">Loading...</div>
+                <div class="jap-meaning" id="jp-meaning">Recherche...</div>
             </div>
 
             <div class="links-container">
@@ -305,50 +310,73 @@
                 });
             }, 600); // 600ms pour laisser le temps aux lignes de commencer leur animation
         });
-        // --- WIDGET JAPONAIS ---
-        const japWords = [
-            { kanji: "新幹線", romaji: "Shinkansen", fr: "Train à grande vitesse" },
-            { kanji: "桜", romaji: "Sakura", fr: "Fleur de cerisier" },
-            { kanji: "開発者", romaji: "Kaihatsusha", fr: "Développeur" },
-            { kanji: "夢", romaji: "Yume", fr: "Rêve" },
-            { kanji: "猫", romaji: "Neko", fr: "Chat" },
-            { kanji: "電脳", romaji: "Dennō", fr: "Cyber / Cerveau électronique" },
-            { kanji: "夜明け", romaji: "Yoake", fr: "Aube (Twilight)" },
-            { kanji: "プログラミング", romaji: "Puroguramingu", fr: "Programmation" },
-            { kanji: "森", romaji: "Mori", fr: "Forêt" },
-            { kanji: "冒険", romaji: "Bōken", fr: "Aventure" },
-            { kanji: "魔法", romaji: "Mahō", fr: "Magie" },
-            { kanji: "未来", romaji: "Mirai", fr: "Futur" },
-            { kanji: "月", romaji: "Tsuki", fr: "Lune" },
-            { kanji: "自由", romaji: "Jiyū", fr: "Liberté" },
-            { kanji: "コード", romaji: "Kōdo", fr: "Code" }
-        ];
-        
-        function displayRandomWord() {
-            const widget = document.getElementById('jap-widget');
+        // --- API JAPONAISE AUTOMATIQUE ---
+    
+        const apiBase = "https://kanjiapi.dev/v1/kanji";
+        let joyoList = []; // On stockera la liste ici pour ne pas la recharger à chaque fois
+    
+        async function fetchRandomKanji() {
             const wordEl = document.getElementById('jp-word');
             const readEl = document.getElementById('jp-reading');
             const meanEl = document.getElementById('jp-meaning');
-        
-            // Choisir un mot au hasard
-            const random = japWords[Math.floor(Math.random() * japWords.length)];
-        
-            // Mettre à jour le texte
-            wordEl.textContent = random.kanji;
-            readEl.textContent = random.romaji;
-            meanEl.textContent = random.fr;
+    
+            // Petit effet de chargement
+            wordEl.style.opacity = 0.5;
+            readEl.textContent = "Loading...";
+            
+            try {
+                // 1. Si on n'a pas la liste, on la télécharge (une seule fois)
+                if (joyoList.length === 0) {
+                    const response = await fetch(`${apiBase}/joyo`);
+                    joyoList = await response.json();
+                }
+    
+                // 2. Choisir un Kanji au hasard
+                const randomKanji = joyoList[Math.floor(Math.random() * joyoList.length)];
+    
+                // 3. Récupérer les détails de ce Kanji spécifique
+                const detailResponse = await fetch(`${apiBase}/${randomKanji}`);
+                const data = await detailResponse.json();
+    
+                // 4. Mise à jour de l'affichage
+                wordEl.textContent = data.kanji;
+                wordEl.style.opacity = 1;
+    
+                // On prend la lecture Kun (Hiragana) ou On (Katakana)
+                // On privilégie le Hiragana s'il existe, c'est plus joli
+                let reading = "";
+                if (data.kun_readings.length > 0) {
+                    reading = data.kun_readings[0];
+                } else if (data.on_readings.length > 0) {
+                    reading = data.on_readings[0];
+                }
+                readEl.textContent = reading;
+    
+                // On prend la première signification (en anglais)
+                // On met la première lettre en majuscule
+                const meaning = data.meanings[0];
+                meanEl.textContent = meaning.charAt(0).toUpperCase() + meaning.slice(1);
+    
+            } catch (error) {
+                console.error("Erreur API:", error);
+                wordEl.textContent = "Error";
+                readEl.textContent = "";
+                meanEl.textContent = "Impossible de charger";
+            }
         }
-        
-        // Lancer au chargement
-        document.addEventListener('DOMContentLoaded', () => {
-            displayRandomWord();
-        
-            // Bonus : Changer le mot quand on clique dessus
-            document.getElementById('jap-widget').addEventListener('click', displayRandomWord);
+    
+        // Lancer au chargement de la page (après le loader)
+        window.addEventListener('load', () => {
+            // On attend un peu que le site s'affiche
+            setTimeout(fetchRandomKanji, 2500);
+    
+            // Interaction au clic
+            document.getElementById('jap-widget').addEventListener('click', fetchRandomKanji);
         });
     </script>
 </body>
 
 </html>
+
 
 
