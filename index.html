@@ -201,7 +201,47 @@
             animation-delay: 0.5s; /* Délai pour attendre la fin du chargement */
         }
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
-
+        
+        /* --- WIDGET JAPONAIS --- */
+        .jap-box {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.2); /* Un peu plus sombre pour ressortir */
+            border-radius: 12px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 0 10px rgba(137, 0, 165, 0.2);
+            cursor: pointer; /* Montre qu'on peut cliquer pour changer */
+            transition: transform 0.2s;
+        }
+        
+        .jap-box:active {
+            transform: scale(0.98); /* Petit effet de clic */
+        }
+        
+        .jap-word {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 10px var(--accent-color);
+            margin-bottom: 5px;
+            font-family: 'Yu Gothic', 'Meiryo', sans-serif; /* Polices japonaises standard */
+        }
+        
+        .jap-reading {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+        
+        .jap-meaning {
+            font-size: 0.9rem;
+            color: #ccc;
+            font-style: italic;
+        }
+        
     </style>
 </head>
 <body>
@@ -225,6 +265,11 @@
             <img src="img/Elysia.png" alt="Profile" class="profile-img">
             <h1>Twilight</h1>
             <p>Retrouvez tous mes réseaux et projets ci-dessous.</p>
+            <div id="jap-widget" class="jap-box">
+                <div class="jap-word" id="jp-word">...</div>
+                <div class="jap-reading" id="jp-reading">...</div>
+                <div class="jap-meaning" id="jp-meaning">...</div>
+            </div>
 
             <div class="links-container">
                 <a href="https://www.youtube.com/@twilight2767" target="_blank" class="link-card">YouTube</a>
@@ -260,8 +305,50 @@
                 });
             }, 600); // 600ms pour laisser le temps aux lignes de commencer leur animation
         });
+        // --- WIDGET JAPONAIS ---
+        const japWords = [
+            { kanji: "新幹線", romaji: "Shinkansen", fr: "Train à grande vitesse" },
+            { kanji: "桜", romaji: "Sakura", fr: "Fleur de cerisier" },
+            { kanji: "開発者", romaji: "Kaihatsusha", fr: "Développeur" },
+            { kanji: "夢", romaji: "Yume", fr: "Rêve" },
+            { kanji: "猫", romaji: "Neko", fr: "Chat" },
+            { kanji: "電脳", romaji: "Dennō", fr: "Cyber / Cerveau électronique" },
+            { kanji: "夜明け", romaji: "Yoake", fr: "Aube (Twilight)" },
+            { kanji: "プログラミング", romaji: "Puroguramingu", fr: "Programmation" },
+            { kanji: "森", romaji: "Mori", fr: "Forêt" },
+            { kanji: "冒険", romaji: "Bōken", fr: "Aventure" },
+            { kanji: "魔法", romaji: "Mahō", fr: "Magie" },
+            { kanji: "未来", romaji: "Mirai", fr: "Futur" },
+            { kanji: "月", romaji: "Tsuki", fr: "Lune" },
+            { kanji: "自由", romaji: "Jiyū", fr: "Liberté" },
+            { kanji: "コード", romaji: "Kōdo", fr: "Code" }
+        ];
+        
+        function displayRandomWord() {
+            const widget = document.getElementById('jap-widget');
+            const wordEl = document.getElementById('jp-word');
+            const readEl = document.getElementById('jp-reading');
+            const meanEl = document.getElementById('jp-meaning');
+        
+            // Choisir un mot au hasard
+            const random = japWords[Math.floor(Math.random() * japWords.length)];
+        
+            // Mettre à jour le texte
+            wordEl.textContent = random.kanji;
+            readEl.textContent = random.romaji;
+            meanEl.textContent = random.fr;
+        }
+        
+        // Lancer au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            displayRandomWord();
+        
+            // Bonus : Changer le mot quand on clique dessus
+            document.getElementById('jap-widget').addEventListener('click', displayRandomWord);
+        });
     </script>
 </body>
 
 </html>
+
 
