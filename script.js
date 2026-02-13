@@ -81,16 +81,47 @@ async function fetchRandomKanji() {
     }
 }
 
-// Lancement au démarrage
+// --- TAUX DE CHANGE (EUR -> JPY) ---
+async function fetchYenRate() {
+    const rateEl = document.getElementById('yen-rate');
+    
+    try {
+        // Appel à l'API gratuite Frankfurter
+        const response = await fetch('https://api.frankfurter.app/latest?from=EUR&to=JPY');
+        const data = await response.json();
+        
+        // On récupère le taux
+        const rate = data.rates.JPY;
+        
+        // On l'affiche (avec 2 chiffres après la virgule)
+        rateEl.textContent = rate.toFixed(2);
+        
+        // Petit effet couleur : Vert si le Yen est fort (faible pour nous), Rouge sinon ? 
+        // Pour l'instant on laisse en violet (accent-color) via le CSS.
+        
+    } catch (error) {
+        console.error("Erreur Taux:", error);
+        rateEl.textContent = "---";
+    }
+}
+
+// --- MODIFICATION DU 'WINDOW LOAD' ---
 window.addEventListener('load', () => {
     const loader = document.getElementById('fake-loader');
-    
-    // On attend que le loader principal disparaisse avant de charger le mot
-    // pour ne pas ralentir l'animation du début
+
     setTimeout(() => {
+        loader.classList.add('loader-hidden');
+        document.body.style.overflow = 'auto'; 
+        loader.addEventListener('transitionend', () => {
+           loader.remove(); 
+        });
+        
+        // Lancer les deux scripts (Kanji + Yen)
         fetchRandomKanji();
+        fetchYenRate(); // <--- On ajoute ça ici !
+
     }, 2000); 
 
-    // Changement au clic
+    // Clic sur le widget Kanji
     document.getElementById('jap-widget').addEventListener('click', fetchRandomKanji);
 });
