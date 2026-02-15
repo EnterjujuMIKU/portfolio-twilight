@@ -302,9 +302,6 @@ h2 {
     font-weight: bold;
     font-size: 1.1rem;
 }
-.yen-value:hover {  
-    scale: 1.05;
-}
 
 .currency-icon {
     font-size: 0.9rem;
@@ -326,7 +323,4 @@ h2 {
     color: var(--accent-color2);
     font-weight: bold;
     font-size: 1.1rem;
-}
-.time-value:hover {
-    scale: 1.05;
 }
