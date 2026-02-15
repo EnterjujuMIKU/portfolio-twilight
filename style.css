@@ -3,6 +3,7 @@
     --glass-bg: rgba(64, 64, 64, 0.5);
     --text-color: #ffffff;
     --accent-color: #8900a5;
+    --accent-color2: #5d0070;
     --loader-bg: #1a0b1f;
 }
 /*- ironmouseLOVE Ironmouse Fan (Sub tier-1)*/
@@ -61,7 +62,6 @@ body {
     background-color: var(--accent-color);
     box-shadow: 0 0 15px var(--accent-color); /* Effet néon */
 }
-
 /* 1. Lignes du BAS (Partent du centre vers les coins) */
 .line-bottom-left {
     bottom: 0;
@@ -79,7 +79,6 @@ body {
     transform-origin: right;
     animation: expandBottomRight 0.2s linear forwards;
 }
-
 /* 2. Lignes des CÔTÉS (Montent vers le haut) - Délai 0.5s */
 .line-side-left {
     bottom: 0;
@@ -97,7 +96,6 @@ body {
     animation: expandUp 0.2s linear forwards;
     animation-delay: 0.2s;
 }
-
 /* 3. Lignes du HAUT (Reviennent vers le centre) - Délai 1.3s (0.5 + 0.8) */
 .line-top-left {
     top: 0;
@@ -136,7 +134,9 @@ body {
 }
 
 /* --- RESTE DU SITE --- */
-body:has(.container:hover) .backcontainer { filter: blur(3px); }
+body:has(.container:hover) .backcontainer { 
+    filter: blur(3px); 
+}
 .backcontainer {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: var(--bg-gradient);
@@ -156,25 +156,59 @@ body:has(.container:hover) .backcontainer { filter: blur(3px); }
     box-shadow: 0 8px 32px rgba(0, 0, 0, 1);
     transition: all 0.3s ease;
 }
-
 .container:hover {
     box-shadow: 0 12px 48px rgba(90, 90, 90, 0.7);
     transform: scale(1.05);
 }
 
-.links-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 20px; }
+.links-container { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 6px; 
+    margin-top: 20px; 
+}
+
 .link-card {
     background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 8px;
     text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold;
     transition: all 0.3s ease; border: 1px solid transparent;
 }
-.link-card:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--accent-color); transform: translateY(-2px); }
+.link-card:hover { 
+    background: rgba(255, 255, 255, 0.2); 
+    border-color: var(--accent-color); 
+    transform: translateY(-2px); 
+}
 
-.video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-top: 15px; }
-.video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.video-wrapper { 
+    position: relative; 
+    padding-bottom: 56.25%; 
+    height: 0; 
+    overflow: hidden; 
+    border-radius: 12px;
+}
+.video-wrapper iframe { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    border: none; 
+}
 
-h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
-.profile-img { width: 120px; height: 120px; border-radius: 50%; border: 3px solid var(--accent-color); margin-bottom: 20px; object-fit: cover; }
+h2 { 
+    font-size: 1.2rem; 
+    margin-bottom: 15px; 
+    color: var(--accent-color);
+}
+
+.profile-img { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    border: 3px solid var(--accent-color); 
+    margin-bottom: 20px; 
+    object-fit: cover;
+}
 
 
 .content {
@@ -199,20 +233,18 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 /* --- WIDGET JAPONAIS --- */
 .jap-box {
     padding: 15px;
-    background: rgba(0, 0, 0, 0.4); /* Un peu plus foncé pour lire le blanc */
+    background: rgba(64, 64, 64, 0.2);  
     border-radius: 12px;
     border: 1px solid var(--accent-color);
     box-shadow: 0 0 15px rgba(137, 0, 165, 0.15);
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
-    user-select: none; /* Empêche de sélectionner le texte en cliquant vite */
+    user-select: none;
 }
-
 .jap-box:hover {
     box-shadow: 0 0 25px rgba(137, 0, 165, 0.4);
     border-color: #fff;
 }
-
 .jap-box:active {
     transform: scale(0.95);
 }
@@ -243,42 +275,45 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
     color: #ddd;
     font-style: italic;
 }
-    
-/* --- TAUX DE CHANGE --- */
-.yen-ticker {
-    margin-bottom: 20px;
-    padding: 4px 16px 8px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50px; /* Forme de pilule */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 0.95rem;
-    color: #eee;
-    display: inline; /* Pour ne pas prendre toute la largeur */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    font-family: 'Consolas', monospace; /* Police style "code" ou "digital" */
-}
 
-.yen-value {
-    color: var(--accent-color); /* Ton violet */
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.currency-icon {
-    font-size: 0.9rem;
-    /*vertical-align: middle;*/
-}
-/* --- GROUPE YEN + HEURE TOKYO --- */
+/* --- Pour yen et time --- */
 .info-row {
     display: flex;
     justify-content: center;
     margin-top: 20px;
     flex-wrap: wrap;
 }
+/* --- Taux de Change Yen --- */
+.yen-ticker {
+    margin-bottom: 20px;
+    padding: 4px 16px 8px;
+    background: rgba(109, 109, 109, 0.25);
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.95rem;
+    color: #eee;
+    display: inline;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Consolas', monospace;
+}
+
+.yen-value {
+    color: var(--accent-color2);
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+.yen-value:hover {  
+    scale: 1.05;
+}
+
+.currency-icon {
+    font-size: 0.9rem;
+}
+/* --- HEURE TOKYO --- */
 
 .tokyo-time {
     padding: 8px 20px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(109, 109, 109, 0.25);
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 0.95rem;
@@ -288,7 +323,10 @@ h2 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-color); }
 }
 
 .time-value {
-    color: var(--accent-color);
+    color: var(--accent-color2);
     font-weight: bold;
     font-size: 1.1rem;
+}
+.time-value:hover {
+    scale: 1.05;
 }
