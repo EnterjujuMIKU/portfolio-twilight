@@ -155,8 +155,7 @@ body:has(.container:hover) .backcontainer {
     text-align: center;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 1);
     transition: all 0.3s ease;
-}
-.container:hover {
+}.container:hover {
     box-shadow: 0 12px 48px rgba(90, 90, 90, 0.7);
     transform: scale(1.025);
 }
@@ -172,8 +171,7 @@ body:has(.container:hover) .backcontainer {
     background: rgba(255, 255, 255, 0.1); padding: 12px; border-radius: 8px;
     text-decoration: none; color: white; font-size: 0.9rem; font-weight: bold;
     transition: all 0.3s ease; border: 1px solid transparent;
-}
-.link-card:hover { 
+}.link-card:hover { 
     background: rgba(255, 255, 255, 0.2); 
     border-color: var(--accent-color); 
     transform: translateY(-2px); 
@@ -185,8 +183,7 @@ body:has(.container:hover) .backcontainer {
     height: 0; 
     overflow: hidden; 
     border-radius: 12px;
-}
-.video-wrapper iframe { 
+}.video-wrapper iframe { 
     position: absolute; 
     top: 0; 
     left: 0; 
@@ -226,10 +223,65 @@ h2 {
     opacity: 0; 
     transform: translateY(20px);
     animation: fadeInUp 0.8s ease-out forwards;
-    animation-delay: 0.5s; /* Délai pour attendre la fin du chargement */
+    animation-delay: 0.5s;
 }
-@keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+.music {
+    padding: 3px 26px 6px;
+    background: rgba(64, 64, 64, 0.2);  
+    border-radius: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(137, 0, 165, 0.15);
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}.music:hover {
+    box-shadow: 0 0 25px rgba(137, 0, 165, 0.4);
+    border-color: #fff;
+}
+.volume {
+    margin-top: -3px;
+    font-size: 0.9rem;
+    color: violet;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+#volumeSlider {
+    -webkit-appearance: none; 
+    appearance: none;
+    width: 135px;
+    background: transparent;
+    cursor: pointer;
+    /*accent-color: #6a5acd;*/
+}#volumeSlider::-moz-range-progress {
+    background-color: #6a5acd;
+    height: 8px;
+    border-radius: 4px;
+}#volumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 10px; 
+    width: 10px;  
+    border-radius: 50%; 
+    background: violet; 
+    cursor: pointer;
+    margin-top: -2px; 
+    box-shadow: 0 0 5px rgba(106, 90, 205, 0.8); 
+}#volumeSlider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: #444; 
+    border-radius: 3px;
+}
 /* --- WIDGET JAPONAIS --- */
 .jap-box {
     padding: 15px;
@@ -240,12 +292,10 @@ h2 {
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
     user-select: none;
-}
-.jap-box:hover {
+}.jap-box:hover {
     box-shadow: 0 0 25px rgba(137, 0, 165, 0.4);
     border-color: #fff;
-}
-.jap-box:active {
+}.jap-box:active {
     transform: scale(0.95);
 }
 

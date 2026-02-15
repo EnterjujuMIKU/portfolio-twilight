@@ -128,27 +128,24 @@ function updateTokyoTime() {
 setInterval(updateTokyoTime, 1000);
 updateTokyoTime(); // Lancer tout de suite
 
-// --- SHINKANSEN EASTER EGG ---
+const musicBtn = document.getElementById('musicBtn');
+const audio = document.getElementById('myAudio');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeValue = document.getElementById('volumeValue');
 
-//function runShinkansen() {
-//    const train = document.getElementById('shinkansen');
-//    train.classList.remove('shinkansen-run');
-    
-    // Petite astuce JS pour forcer l'animation à se réinitialiser
-//    void train.offsetWidth; 
-    
-//    train.classList.add('shinkansen-run');
-//}
+musicBtn.addEventListener('click', () => {
+    if (audio.paused) {
+        audio.play();
+        musicBtn.textContent = "Pause ⏸";
+    } else {
+        audio.pause();
+        musicBtn.textContent = "Jouer la musique ♫";
+    }
+});
+// le volume par défaut (0.5 = 50%)
+audio.volume = volumeSlider.value;
 
-// Le train passe tout seul de temps en temps (entre 1 et 3 minutes)
-//function scheduleTrain() {
-//    setTimeout(() => {
-//        runShinkansen();
-//        scheduleTrain();
-//    }, Math.random() * 120000 + 60000);
-//}
-
-// --- DANS TON EVENT 'window.addEventListener("load", ...)' EXISTANT ---
-// Ajoute ces deux lignes à l'intérieur de l'événement load (avec le reste) :
-//scheduleTrain();
-//document.getElementById('hanko-btn').addEventListener('click', runShinkansen);
+volumeSlider.addEventListener('input', (e) => {
+    audio.volume = e.target.value;
+    volumeValue.textContent = `${Math.round(e.target.value * 100)}%`;
+});
