@@ -30,12 +30,14 @@ async function fetchRandomKanji() {
     const wordEl = document.getElementById('jp-word');
     const readEl = document.getElementById('jp-reading');
     const meanEl = document.getElementById('jp-meaning');
+    const meanEl2 = document.getElementById('jp-meaning2');
 
     // Animation de chargement
     widget.style.opacity = 0.7;
     wordEl.textContent = "...";
     readEl.textContent = "Chargement...";
     meanEl.textContent = "Traduction en cours...";
+    meanEl2.textContent = "Translation in progress...";
     
     try {
         // 1. Récupérer la liste des Kanji (si vide)
@@ -76,14 +78,16 @@ async function fetchRandomKanji() {
         }
         readEl.textContent = reading;
 
-        // Signification en Français (1ère lettre majuscule)
+        // Signification en Français/Anglais (1ère lettre majuscule)
         meanEl.textContent = frenchWord.charAt(0).toUpperCase() + frenchWord.slice(1).toLowerCase();
+        meanEl2.textContent = `${englishWord.charAt(0).toUpperCase() + englishWord.slice(1).toLowerCase()}`;
 
     } catch (error) {
         console.error("Erreur:", error);
         wordEl.textContent = "Error";
         readEl.textContent = "";
         meanEl.textContent = "Réessayer...";
+        meanEl2.textContent = "Try again...";
         widget.style.opacity = 1;
     }
 }
@@ -94,18 +98,14 @@ async function fetchYenRate() {
     const rateEl = document.getElementById('yen-rate');
     
     try {
-        // Appel à l'API gratuite Frankfurter
         const response = await fetch('https://api.frankfurter.app/latest?from=EUR&to=JPY');
         const data = await response.json();
         
-        // On récupère le taux
         const rate = data.rates.JPY;
         
-        // On l'affiche (avec 2 chiffres après la virgule)
         rateEl.textContent = rate.toFixed(2);
         
         // Petit effet couleur : Vert si le Yen est fort (faible pour nous), Rouge sinon ? 
-        // Pour l'instant on laisse en violet (accent-color) via le CSS.
         
     } catch (error) {
         console.error("Erreur Taux:", error);
@@ -152,3 +152,28 @@ volumeSlider.addEventListener('input', (e) => {
     volumeValue.textContent = `${percentage}%`;
     volumeColor[0].style.color = `color-mix(in srgb, violet ${percentage}%, white ${100 - percentage}%)`;
 });
+async function checkTwitchStatus() {
+    const twitchStatusElement = document.getElementById('twitch-status');
+    const url = 'https://decapi.me/twitch/uptime/twilightfr';
+
+    try {
+        const response = await fetch(url);
+        const data = await response.text();
+
+        if (data.includes('offline')) {
+            twitchStatusElement.textContent = '🔴'; // Hors ligne
+            twitchStatusElement.title = 'Actuellement hors ligne';
+        } else {
+            twitchStatusElement.textContent = '🟢'; // En ligne
+            twitchStatusElement.title = `En live depuis : ${data}`;
+        }
+    } catch (error) {
+        console.error("Impossible de récupérer le statut Twitch", error);
+        twitchStatusElement.textContent = '🔴';
+    }
+}
+
+checkTwitchStatus();
+
+// Optionnel : on revérifie toutes les 5 minutes (300 000 millisecondes)
+setInterval(checkTwitchStatus, 300000);
