@@ -132,6 +132,7 @@ const musicBtn = document.getElementById('musicBtn');
 const audio = document.getElementById('myAudio');
 const volumeSlider = document.getElementById('volumeSlider');
 const volumeValue = document.getElementById('volumeValue');
+const volumeColor = document.getElementsByClassName('volumeColor');
 
 musicBtn.addEventListener('click', () => {
     if (audio.paused) {
@@ -147,5 +148,7 @@ audio.volume = volumeSlider.value;
 
 volumeSlider.addEventListener('input', (e) => {
     audio.volume = e.target.value;
-    volumeValue.textContent = `${Math.round(e.target.value * 100)}%`;
+    const percentage = Math.round(e.target.value * 100);
+    volumeValue.textContent = `${percentage}%`;
+    volumeColor[0].style.color = `color-mix(in srgb, violet ${percentage}%, white ${100 - percentage}%)`;
 });
