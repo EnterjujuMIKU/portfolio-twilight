@@ -176,4 +176,4 @@ async function checkTwitchStatus() {
 checkTwitchStatus();
 
 // Optionnel : on revérifie toutes les 5 minutes (300 000 millisecondes)
-setInterval(checkTwitchStatus, 300000);
+// setInterval(checkTwitchStatus, 300000);
