@@ -176,7 +176,7 @@ async function checkTwitchStatus() {
 checkTwitchStatus();
 
 // Optionnel : on revérifie toutes les 5 minutes (300 000 millisecondes)
-setInterval(checkTwitchStatus, 300000);
+// setInterval(checkTwitchStatus, 300000);
 
 const toggleBtn = document.getElementById('anilist-toggle-btn');
 const widgetWrapper = document.getElementById('anilist-widget-wrapper');
