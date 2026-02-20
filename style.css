@@ -174,7 +174,7 @@ body:has(.container:hover) .backcontainer {
 }.link-card:hover { 
     background: rgba(255, 255, 255, 0.2); 
     border-color: var(--accent-color); 
-    transform: translateY(-2px); 
+    transform: scale(1.05); 
 }
 
 .video-wrapper { 
@@ -330,9 +330,7 @@ h2 {
     display: inline;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     font-family: 'Consolas', monospace;
-}
-
-.yen-value {
+}.yen-value {
     color: var(--accent-color2);
     font-weight: bold;
     font-size: 1.1rem;
@@ -352,9 +350,7 @@ h2 {
     color: #eee;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     font-family: 'Consolas', monospace;
-}
-
-.time-value {
+}.time-value {
     color: var(--accent-color2);
     font-weight: bold;
     font-size: 1.1rem;
@@ -362,4 +358,38 @@ h2 {
 
 .twitch-indicator {
     font-size: 1.15rem;
+}
+
+
+.widget-wrapper {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.2s ease-out;
+    overflow: hidden;
+    margin-top: 5px;
+}
+
+.widget-wrapper.open {
+    grid-template-rows: 1fr;
+}
+
+.widget-inner {
+    min-height: 0; 
+    background-color: rgba(25, 25, 35, 0.8);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.widget-wrapper.open .widget-inner {
+    padding: 15px;
+}
+
+.anime-cover {
+    width: 100px;
+    border-radius: 5px;
+    margin-top: 10px;
+    box-shadow: 0 0 10px rgba(106, 90, 205, 0.5);
 }

@@ -177,3 +177,66 @@ checkTwitchStatus();
 
 // Optionnel : on revérifie toutes les 5 minutes (300 000 millisecondes)
 setInterval(checkTwitchStatus, 300000);
+
+const toggleBtn = document.getElementById('anilist-toggle-btn');
+const widgetWrapper = document.getElementById('anilist-widget-wrapper');
+const anilistContent = document.getElementById('anilist-content');
+let isDataLoaded = false;
+
+toggleBtn.addEventListener('click', () => {
+    widgetWrapper.classList.toggle('open');
+
+    if (widgetWrapper.classList.contains('open') && !isDataLoaded) {
+        fetchAnilistData();
+    }
+});
+
+async function fetchAnilistData() {
+    const query = `
+    query {
+      MediaListCollection(userName: "STwilight", type: ANIME, status: CURRENT, sort: UPDATED_TIME_DESC) {
+        lists {
+          entries {
+            media {
+              title { romaji }
+              coverImage { large }
+              siteUrl
+            }
+          }
+        }
+      }
+    }`;
+
+    try {
+        const response = await fetch('https://graphql.anilist.co', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({ query: query })
+        });
+
+        const data = await response.json();
+        const lists = data.data.MediaListCollection.lists;
+
+        if (lists.length > 0 && lists[0].entries.length > 0) {
+            const anime = lists[0].entries[0].media;
+            
+            anilistContent.innerHTML = `
+                <strong style="color: white;">En cours de visionnage :</strong>
+                <a href="${anime.siteUrl}" target="_blank" style="color: #6a5acd; text-decoration: none; font-weight: bold; display: block; margin-top: 5px;">
+                    ${anime.title.romaji}
+                </a>
+                <img src="${anime.coverImage.large}" alt="Cover" class="anime-cover">
+            `;
+            isDataLoaded = true;
+        } else {
+            anilistContent.innerHTML = "<p style='color: white;'>Aucun anime en cours pour le moment !</p>";
+        }
+
+    } catch (error) {
+        console.error("Erreur AniList:", error);
+        anilistContent.innerHTML = "<p style='color: red;'>Erreur lors du chargement des données.</p>";
+    }
+}
