@@ -210,7 +210,7 @@ h2 {
 
 .content {
     display: inline-flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 10px;
     width: 100%;
     max-width: 500px;
